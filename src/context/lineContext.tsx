@@ -34,6 +34,7 @@ const defaultContext: contextType = {
 const LineContext = createContext(defaultContext);
 
 export function LineProvider({ children }: { children: ReactNode }) {
+  const { pathname, replace } = useRouter();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [profile, setProfile] = useState<Profile>();
   const [init, setInit] = useState<boolean>(false);
@@ -48,16 +49,14 @@ export function LineProvider({ children }: { children: ReactNode }) {
     void updateLoggedInState();
 
     //only access in line app
-    // if (init) {
-    //   if (!liff.isInClient()) {
-    //     if (pathname == "/votes/ranking") {
-    //       return;
-    //     }
-    //     void replace("/not-in-app");
-    //   }
-    // }
-
-    // if (!loggedIn && pathname !== "/events") void replace("/");
+    if (init) {
+      if (!liff.isInClient()) {
+        if (pathname == "/votes/ranking") {
+          return;
+        }
+        void replace("/not-in-app");
+      }
+    }
 
     if (loggedIn) {
       void getProfile();
