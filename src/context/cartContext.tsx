@@ -32,7 +32,11 @@ const CartContext = createContext(defaultContext);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const { profile } = useLine();
-  const { data: user, refetch } = api.user.getById.useQuery({
+  const {
+    data: user,
+    isLoading,
+    refetch,
+  } = api.user.getById.useQuery({
     lineId: profile?.userId!,
   });
 
@@ -41,15 +45,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user) void refetch();
 
-    if (user.isSale) {
-      createCart();
+    if (!isLoading || user != undefined) {
+      if (user?.isSale) {
+        createCart();
+      }
     }
 
     if (localStorage.getItem("cart") != null) {
       if (Object.keys(localStorage.getItem("cart")!).length <= 0) createCart();
       getCartItems();
     }
-  }, [user]);
+  }, [user, isLoading]);
 
   const createCart = () => {
     const hasCart = localStorage.getItem("cart");
