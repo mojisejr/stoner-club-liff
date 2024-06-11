@@ -34,8 +34,8 @@ const ProfilePage = () => {
           lineId={profile?.userId!}
           name={profile?.displayName}
           tel={member != undefined ? member.tel : "N/A"}
-          isSale={member.isSale}
-          isVip={member.isVip}
+          isSale={member?.isSale ?? false}
+          isVip={member?.isVip ?? false}
         />
       ) : (
         <div className="loading loading-spinner"></div>
