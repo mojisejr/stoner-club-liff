@@ -5,8 +5,12 @@ import ProductDetailBox from "~/components/menu/product-detail-box";
 import { useLine } from "~/context/lineContext";
 
 const ProductDetail = () => {
-  const { loggedIn } = useLine();
+  const { loggedIn, profile } = useLine();
   const { query, replace } = useRouter();
+
+  const { data: user } = api.user.getById.useQuery({
+    lineId: profile?.userId!,
+  });
 
   const {
     data: product,
@@ -22,13 +26,13 @@ const ProductDetail = () => {
     if (!loggedIn) {
       void replace("/");
     }
-  }, [query, loggedIn]);
+  }, [query, loggedIn, user]);
   return (
     <main className="p-2">
-      {isLoading ? (
+      {isLoading || user == undefined ? (
         <div>Loading...</div>
       ) : (
-        <ProductDetailBox product={product!} />
+        <ProductDetailBox product={product!} isSale={user?.isSale ?? false} />
       )}
     </main>
   );

@@ -1,12 +1,15 @@
 import React from "react";
 import { Product } from "~/interfaces/product";
 import Image from "next/image";
+import { useCart } from "~/context/cartContext";
 
 interface ProductDetailBoxProps {
+  isSale: boolean;
   product: Product;
 }
 
-const ProductDetailBox = ({ product }: ProductDetailBoxProps) => {
+const ProductDetailBox = ({ product, isSale }: ProductDetailBoxProps) => {
+  const { incItem } = useCart();
   return (
     <div className="w-84 card card-compact bg-base-100 shadow-xl">
       <figure className="w-full">
@@ -27,9 +30,16 @@ const ProductDetailBox = ({ product }: ProductDetailBoxProps) => {
           ฿{product.price}
         </h2>
         <p>{product.desc}</p>
-        {/* <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
-        </div> */}
+        {isSale ? (
+          <div className="card-actions justify-end">
+            <button
+              onClick={() => incItem(product, 1)}
+              className="btn btn-primary"
+            >
+              Add To Cart
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

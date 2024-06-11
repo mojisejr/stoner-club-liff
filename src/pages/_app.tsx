@@ -8,15 +8,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SaleProvider } from "~/context/saleContext";
 import Navbar from "~/components/shared/navbar";
+import { CartProvider } from "~/context/cartContext";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <LineProvider>
         <SaleProvider>
-          <Navbar />
-          <Component {...pageProps} />
-          <ToastContainer limit={1} />
+          <CartProvider>
+            <Navbar />
+            <Component {...pageProps} />
+            <ToastContainer limit={1} />
+          </CartProvider>
         </SaleProvider>
       </LineProvider>
     </>

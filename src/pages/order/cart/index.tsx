@@ -1,0 +1,47 @@
+import Link from "next/link";
+import React from "react";
+import InCartItem from "~/components/cart/in-cart-item";
+import { useCart } from "~/context/cartContext";
+
+const Cart = () => {
+  const { cartItem, clearCart } = useCart();
+  return (
+    <main className="grid grid-cols-1 gap-2 p-2">
+      <div>
+        <div className="text-xl font-bold">Item In Cart</div>
+        <div className="text-sm font-semibold text-secondary-content">
+          checkout if everything is ready
+        </div>
+      </div>
+      <div className="h-[400px] overflow-scroll p-2">
+        <div className="flex  flex-col gap-2">
+          {cartItem && cartItem.items.length <= 0 ? (
+            <div className="w-full text-center">Nothing in your cart</div>
+          ) : (
+            cartItem?.items.map((item) => (
+              <InCartItem
+                key={item.product._id}
+                product={item.product}
+                amount={item.amount}
+              />
+            ))
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col gap-1  p-2">
+        <div className="font-bold">Subtotal</div>
+        <div className="bg-slate-200 p-2 text-xl">฿{cartItem?.subtotal}</div>
+      </div>
+      <div className="flex w-full justify-evenly">
+        <Link href={`/order/checkout`} className="btn btn-primary">
+          Checkout
+        </Link>
+        <button onClick={() => clearCart()} className="btn btn-secondary">
+          Clear Cart
+        </button>
+      </div>
+    </main>
+  );
+};
+
+export default Cart;
