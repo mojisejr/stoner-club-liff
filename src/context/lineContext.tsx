@@ -51,10 +51,9 @@ export function LineProvider({ children }: { children: ReactNode }) {
     //only access in line app
     if (init) {
       if (!liff.isInClient()) {
-        if (pathname == "/order/checkout/download") {
-          return;
+        if (pathname != "/order/checkout/download") {
+          void replace("/not-in-app");
         }
-        void replace("/not-in-app");
       }
     }
 
