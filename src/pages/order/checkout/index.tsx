@@ -17,7 +17,7 @@ const CheckoutPage = () => {
 
   const downloadReceipt = () => {
     liff?.openWindow({
-      url: `${process.env.NEXT_PUBLIC_WEB_URL}/order/checkout/download`,
+      url: `${process.env.NEXT_PUBLIC_WEB_URL}/order/checkout/download?item=${JSON.stringify(cartItem)}`,
       external: true,
     });
   };
