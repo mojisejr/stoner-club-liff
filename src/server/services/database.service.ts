@@ -93,8 +93,6 @@ export const getProductsByBrand = async (brandId: string) => {
 
   const found = await client.fetch<Product[]>(query);
 
-  console.log(found);
-
   return found;
 };
 
@@ -119,8 +117,6 @@ export const getCategoryList = async () => {
   }`;
 
   const found = await client.fetch<Category[]>(query);
-
-  console.log(found);
 
   return found;
 };

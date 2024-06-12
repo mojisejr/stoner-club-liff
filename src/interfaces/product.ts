@@ -15,5 +15,5 @@ export interface Product {
     productDetailName: string;
     _type: string;
     _key: string;
-  };
+  }[];
 }

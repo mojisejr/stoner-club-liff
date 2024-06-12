@@ -1,14 +1,16 @@
 import Image from "next/image";
-import React, { useRef } from "react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import { Cart } from "~/interfaces/cart";
 import { FaFileDownload } from "react-icons/fa";
 import html2canvas from "html2canvas-pro";
 
 interface ReceiptCardProps {
   cartItem: Cart;
+  downloadable: boolean;
 }
 
-const ReceiptCard = ({ cartItem }: ReceiptCardProps) => {
+const ReceiptCard = ({ cartItem, downloadable }: ReceiptCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
@@ -28,12 +30,14 @@ const ReceiptCard = ({ cartItem }: ReceiptCardProps) => {
 
   return (
     <div className="relative w-full p-2">
-      <button
-        onClick={() => handleDownload()}
-        className="btn btn btn-circle btn-primary absolute right-3 top-2 flex items-center justify-center"
-      >
-        <FaFileDownload size={24} />
-      </button>
+      {downloadable ? (
+        <button
+          onClick={() => handleDownload()}
+          className="btn btn btn-circle btn-primary absolute right-3 top-2 flex items-center justify-center"
+        >
+          <FaFileDownload size={24} />
+        </button>
+      ) : null}
       <div ref={cardRef} className="rounded-xl p-2 shadow">
         <div className="flex flex-col items-center justify-center gap-2">
           <figure>
