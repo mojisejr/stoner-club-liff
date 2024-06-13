@@ -47,10 +47,28 @@ const ReceiptCard = ({ cartItem, downloadable }: ReceiptCardProps) => {
             <span className="text-2xl">$</span>
             toner Club
           </div>
-          <div className="w-full bg-blue-200 text-center">Sale Slip</div>
+          <div className="w-full bg-blue-200 text-center">ใบเสร็จรับเงิน</div>
         </div>
-        <div className="divider border-b-2 pb-4">Purchase Detail</div>
-        <ol className="rounded-xl p-2">
+        <div className="min-h-[200px]">
+          <table className="table-xs">
+            <thead className="bg-slate-200">
+              <th className="text-start">รายการ</th>
+              <th className="text-start">฿</th>
+            </thead>
+            <tbody>
+              {cartItem?.items.map((itm, index) => (
+                <tr key={index}>
+                  <td>
+                    {index + 1}. {itm.product.title}
+                  </td>
+                  <td>{itm.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* <ol className="rounded-xl p-2">
           {cartItem?.items.map((itm, index) => (
             <li key={index} className="grid grid-cols-2">
               <span>
@@ -59,13 +77,25 @@ const ReceiptCard = ({ cartItem, downloadable }: ReceiptCardProps) => {
               <span className="text-end">฿{itm.total}</span>
             </li>
           ))}
-        </ol>
+        </ol> */}
         <div className="w-full bg-slate-100 p-2 text-right  text-xl">
-          Subtotal:{" "}
+          รวมเป็นเงิน:{" "}
           <span className="font-bold text-secondary-content">
             ฿{cartItem?.subtotal}
           </span>
         </div>
+        <div className="flex w-full flex-col items-center justify-center py-2">
+          <div>QR-Code ชำระเงิน</div>
+          <figure className="flex w-48 items-center justify-center">
+            <Image
+              src="/images/payment-qr.jpg"
+              height={750}
+              width={750}
+              alt="logo"
+            />
+          </figure>
+        </div>
+
         <div className="w-full pt-2 text-end text-xs">
           all right reserved 2024
         </div>
