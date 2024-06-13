@@ -49,8 +49,8 @@ const ReceiptCard = ({ cartItem, downloadable }: ReceiptCardProps) => {
           </div>
           <div className="w-full bg-blue-200 text-center">ใบเสร็จรับเงิน</div>
         </div>
-        <div className="min-h-[200px]">
-          <table className="table-xs">
+        <div className="min-h-[200px] w-full">
+          <table className="table-xs w-full">
             <thead className="bg-slate-200">
               <th className="text-start">รายการ</th>
               <th className="text-start">฿</th>
