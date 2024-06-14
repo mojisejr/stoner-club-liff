@@ -12,10 +12,11 @@ type InputType = {
 };
 
 const CheckoutPage = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit } = useForm<InputType>();
   const [checkoutCartId, setCheckoutCartId] = useState<string>();
 
-  const { liff, profile } = useLine();
+  const { profile } = useLine();
   const { cartItem, clearCart, checkOut } = useCart();
   const { replace } = useRouter();
   const {
@@ -23,10 +24,12 @@ const CheckoutPage = () => {
     mutate: save,
     isLoading,
     isSuccess,
+    isError,
   } = api.product.createOrder.useMutation();
 
   const onSubmit = handleSubmit(async (data, event) => {
     event?.preventDefault();
+    setLoading(true);
 
     setCheckoutCartId(cartItem?.cartId);
 
@@ -58,7 +61,11 @@ const CheckoutPage = () => {
         },
       });
     }
-  }, [isSuccess]);
+
+    if (isError) {
+      setLoading(false);
+    }
+  }, [isSuccess, isError]);
 
   return (
     <main>
@@ -82,11 +89,11 @@ const CheckoutPage = () => {
         </button> */}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || loading}
             // onClick={() => save({ cartItem: cartItem! })}
             className="btn btn-primary w-full disabled:bg-slate-500"
           >
-            {isLoading ? "กำลังบันทึก" : "บันทึกข้อมูลขาย"}
+            {isLoading || loading ? "กำลังบันทึก" : "บันทึกข้อมูลขาย"}
           </button>
         </form>
       </div>
