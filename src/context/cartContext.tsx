@@ -52,13 +52,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
 
     if (localStorage.getItem("cart") != null) {
-      if (Object.keys(localStorage.getItem("cart")!).length <= 0) createCart();
       getCartItems();
     }
   }, [user, isLoading]);
 
   const createCart = () => {
     const hasCart = localStorage.getItem("cart");
+
+    if (hasCart == "{}") {
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({
+          cartId: `${profile?.userId}_${new Date().getTime()}`,
+          lineId: profile?.userId,
+          items: [],
+          subtotal: 0,
+        }),
+      );
+    }
 
     if (hasCart != undefined) return;
 

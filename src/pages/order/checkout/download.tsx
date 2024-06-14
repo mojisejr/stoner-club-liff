@@ -2,24 +2,47 @@ import React, { useEffect, useState } from "react";
 import ReceiptCard from "~/components/checkout/recept-card";
 import { useRouter } from "next/router";
 import { Cart } from "~/interfaces/cart";
+import { api } from "~/utils/api";
+import ReceiptCardDownload from "~/components/checkout/receipt-card-download";
 
 const ReceiptDownload = () => {
-  const [cartItem, setCartItem] = useState<Cart>();
   const { query } = useRouter();
 
+  const {
+    data: order,
+    isLoading,
+    refetch,
+  } = api.order.getByid.useQuery({ orderId: query?.orderId as string });
+
+  console.log(order);
+
   useEffect(() => {
-    if (query.item != undefined) {
-      setCartItem(JSON.parse(query.item as string));
+    if (query.orderId != undefined) {
+      refetch();
     }
-  }, [query!.item]);
+  }, [query!.orderId]);
 
   return (
     <main>
-      {cartItem ? (
-        <ReceiptCard cartItem={cartItem!} downloadable={true} />
-      ) : (
-        <div>ไม่มีข้อมูล</div>
-      )}
+      <>
+        {isLoading ? (
+          <div>Loading..</div>
+        ) : (
+          <>
+            {/* lineId: string; // sale
+  cartId: string;
+  customerId: string;
+  items: CartItem[];
+  subtotal: number;
+  count: number; */}
+            {order ? (
+              <ReceiptCardDownload order={order} downloadable={true} />
+            ) : (
+              <div>ไม่มีข้อมูล</div>
+            )}
+          </>
+        )}
+      </>
     </main>
   );
 };

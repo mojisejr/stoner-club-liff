@@ -33,22 +33,25 @@ export const productRouter = createTRPCRouter({
   createOrder: publicProcedure
     .input(
       z.object({
-        cartItem: z.object({
-          lineId: z.string(), // sale
-          cartId: z.string(),
-          items: z.array(
-            z.object({
-              amount: z.number(),
-              product: z.any().optional(),
-              total: z.number(),
-            }),
-          ),
-          subtotal: z.number(),
-          count: z.number(),
+        data: z.object({
+          cartItem: z.object({
+            lineId: z.string(), // sale
+            cartId: z.string(),
+            items: z.array(
+              z.object({
+                amount: z.number(),
+                product: z.any().optional(),
+                total: z.number(),
+              }),
+            ),
+            subtotal: z.number(),
+            count: z.number(),
+          }),
         }),
+        slipId: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      return await saveOrder(input.cartItem as Cart);
+      return await saveOrder(input.data.cartItem as Cart, input.slipId);
     }),
 });

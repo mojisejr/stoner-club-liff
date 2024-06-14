@@ -85,6 +85,13 @@ export const productType = defineType({
     }),
 
     defineField({
+      title: "isRecommend",
+      name: "isRecommend",
+      type: "boolean",
+      initialValue: false,
+    }),
+
+    defineField({
       title: "slug",
       name: "slug",
       type: "slug",

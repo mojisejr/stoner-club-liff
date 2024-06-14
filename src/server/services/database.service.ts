@@ -5,6 +5,7 @@ import { Brand } from "~/interfaces/brand";
 import { Product } from "~/interfaces/product";
 import { Category } from "~/interfaces/category";
 import { Cart } from "~/interfaces/cart";
+import { Order } from "~/interfaces/order";
 
 export const createNewUser = async (data: NewUserProfile) => {
   const query = groq`*[_type == "user" && lineId == "${data.lineId}"]`;
@@ -27,7 +28,7 @@ export const createNewUser = async (data: NewUserProfile) => {
   return found;
 };
 
-export const saveOrder = async (cartItem: Cart) => {
+export const saveOrder = async (cartItem: Cart, slipId: string) => {
   const newOrder = {
     _type: "order",
     _id: cartItem.cartId,
@@ -41,6 +42,14 @@ export const saveOrder = async (cartItem: Cart) => {
     purchaseDate: new Date(),
     subtotal: cartItem.subtotal,
     lineId: cartItem.lineId,
+    hasSlip: true,
+    slipImage: {
+      _type: "image",
+      asset: {
+        _type: "reference",
+        _ref: slipId,
+      },
+    },
   };
 
   const result = await client.create(newOrder);
@@ -78,7 +87,7 @@ export const getProductById = async (productId: string) => {
 };
 
 export const getProductsByBrand = async (brandId: string) => {
-  const query = groq`*[_type == "product" && brand->_id match "${brandId}"] {
+  const query = groq`*[_type == "product" && brand->_id match "${brandId}" && isActive == true] {
       _id,
     title,
     "brand":brand->{_id, title},
@@ -117,6 +126,32 @@ export const getCategoryList = async () => {
   }`;
 
   const found = await client.fetch<Category[]>(query);
+
+  return found;
+};
+
+export const getOrderById = async (orderId: string) => {
+  const query = groq`*[_type == "order" && orderId == "${orderId}"] {
+  orderId,
+  lineId,
+  subtotal,
+    "items": items[]{
+      amount,
+      "product": product->{
+         _id,
+        title,
+        "brand":brand->{_id, title},
+        "category": category->{_id, title, desc},
+        desc,
+        price,
+        "images": images[]{ "image": asset -> url },
+        slug,
+        isActive,
+        details}
+    }
+  }[0]`;
+
+  const found = await client.fetch<Order>(query);
 
   return found;
 };
