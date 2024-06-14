@@ -2,6 +2,7 @@ import React from "react";
 import { Product } from "~/interfaces/product";
 import Image from "next/image";
 import { useCart } from "~/context/cartContext";
+import ImageCarousel from "./product-images-carousel";
 
 interface ProductDetailBoxProps {
   isSale: boolean;
@@ -12,7 +13,10 @@ const ProductDetailBox = ({ product, isSale }: ProductDetailBoxProps) => {
   const { incItem } = useCart();
   return (
     <div className="w-84 card card-compact bg-base-100 shadow-xl">
-      <figure className="w-full">
+      <div className="flex w-full justify-center">
+        <ImageCarousel images={product?.images.map((image) => image.image)!} />
+      </div>
+      {/* <figure className="w-full">
         <Image
           src={
             product.images == null
@@ -23,7 +27,7 @@ const ProductDetailBox = ({ product, isSale }: ProductDetailBoxProps) => {
           height={750}
           alt={product.title}
         />
-      </figure>
+      </figure> */}
       <div className="card-body">
         <h2 className="card-title">{product.title}</h2>
         <h2 className="text-xl font-bold text-secondary-content">
