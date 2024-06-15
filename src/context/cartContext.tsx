@@ -17,6 +17,7 @@ type contextType = {
   removeItemFromCart: (item: Product) => void;
   clearCart: () => void;
   checkOut: () => void;
+  isListed: (productId: string) => boolean;
 };
 
 const defaultContext: contextType = {
@@ -26,6 +27,7 @@ const defaultContext: contextType = {
   removeItemFromCart: () => undefined,
   clearCart: () => undefined,
   checkOut: () => undefined,
+  isListed: () => false,
 };
 
 const CartContext = createContext(defaultContext);
@@ -213,6 +215,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("cart");
   };
 
+  const isListed = (productId: string) => {
+    const cartItem = parsedLocalstorage();
+
+    const found = cartItem?.items.find((item) => item.product._id == productId);
+
+    if (found) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const parsedLocalstorage = () => {
     const parsed =
       localStorage.getItem("cart") == null
@@ -227,6 +241,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     removeItemFromCart,
     clearCart,
     checkOut,
+    isListed,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

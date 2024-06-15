@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Product } from "~/interfaces/product";
 import Image from "next/image";
 import { useCart } from "~/context/cartContext";
@@ -10,7 +10,20 @@ interface ProductDetailBoxProps {
 }
 
 const ProductDetailBox = ({ product, isSale }: ProductDetailBoxProps) => {
-  const { incItem } = useCart();
+  const [listed, setListed] = useState<boolean>(false);
+
+  const { incItem, isListed } = useCart();
+
+  const handleAddItem = () => {
+    if (listed) return;
+    setListed(true);
+    incItem(product, 1);
+  };
+
+  useEffect(() => {
+    setListed(isListed(product._id));
+  }, []);
+
   return (
     <div className="w-84 card card-compact bg-base-100 shadow-xl">
       <div className="flex w-full justify-center">
@@ -52,10 +65,11 @@ const ProductDetailBox = ({ product, isSale }: ProductDetailBoxProps) => {
         {isSale ? (
           <div className="card-actions justify-end">
             <button
-              onClick={() => incItem(product, 1)}
-              className="btn btn-primary"
+              disabled={listed}
+              onClick={() => handleAddItem()}
+              className="btn btn-primary disabled:bg-slate-200"
             >
-              หยิบใส่ตระกร้า
+              {listed ? "เพิ่มแล้ว" : "หยิบใส่ตระกร้า"}
             </button>
           </div>
         ) : null}
