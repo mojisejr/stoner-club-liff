@@ -6,6 +6,7 @@ import { Product } from "~/interfaces/product";
 import { Category } from "~/interfaces/category";
 import { Cart } from "~/interfaces/cart";
 import { Order } from "~/interfaces/order";
+import { SaleNotify } from "../messaging/notify";
 
 export const createNewUser = async (data: NewUserProfile) => {
   const query = groq`*[_type == "user" && lineId == "${data.lineId}"]`;
@@ -28,7 +29,12 @@ export const createNewUser = async (data: NewUserProfile) => {
   return found;
 };
 
-export const saveOrder = async (cartItem: Cart, slipId: string) => {
+export const saveOrder = async (
+  cartItem: Cart,
+  slipId: string,
+  slipUrl: string,
+  saleName: string,
+) => {
   const newOrder = {
     _type: "order",
     _id: cartItem.cartId,
@@ -51,6 +57,19 @@ export const saveOrder = async (cartItem: Cart, slipId: string) => {
       },
     },
   };
+
+  const orderMessage = `
+  ✅ รายการขาย
+  ===========
+  id เซลล์: ${cartItem.lineId}
+  ชื่อ line: ${saleName}
+  orderId: ${cartItem.cartId}
+  ยอดรวม: ${cartItem.subtotal} บาท
+  link สลิบ: ${slipUrl}
+  ===========
+  `;
+
+  await SaleNotify(orderMessage);
 
   const result = await client.create(newOrder);
   return result;

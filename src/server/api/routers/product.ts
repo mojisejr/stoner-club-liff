@@ -49,9 +49,16 @@ export const productRouter = createTRPCRouter({
           }),
         }),
         slipId: z.string(),
+        slipUrl: z.string(),
+        saleName: z.string(),
       }),
     )
     .mutation(async ({ input }) => {
-      return await saveOrder(input.data.cartItem as Cart, input.slipId);
+      return await saveOrder(
+        input.data.cartItem as Cart,
+        input.slipId,
+        input.slipUrl,
+        input.saleName,
+      );
     }),
 });

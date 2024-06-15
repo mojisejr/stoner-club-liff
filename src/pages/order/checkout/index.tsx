@@ -38,13 +38,16 @@ const CheckoutPage = () => {
       filename: `slip_${profile?.userId}_${cartItem?.cartId}}`,
     });
 
-    console.log(uploadedSlip);
-
     if (uploadedSlip == undefined || uploadedSlip == null) {
       return;
     }
 
-    save({ data: { cartItem: cartItem! }, slipId: uploadedSlip._id });
+    save({
+      data: { cartItem: cartItem! },
+      slipId: uploadedSlip._id,
+      slipUrl: uploadedSlip.url,
+      saleName: profile?.displayName!,
+    });
   });
 
   useEffect(() => {
@@ -71,8 +74,16 @@ const CheckoutPage = () => {
     <main>
       <ReceiptCard cartItem={cartItem!} downloadable={false} />
       <div className="flex flex-col gap-2 p-2">
+        <p className="bg-primary p-2 text-primary-content">
+          สำคัญมาก:
+          <div>✅ โอนตามยอดที่สรุปให้เท่านั้น</div>
+          <div>
+            ❌ ห้ามส่งสลิบปลอม / แชร์สลิป ถ้าทางร้านพบเจอ
+            ทางร้านจะแจ้งความดำเนินคดีทุกกรณี
+          </div>
+        </p>
         <form onSubmit={onSubmit}>
-          <div className="py-2">
+          <div className="flex flex-col py-2">
             <label>แนบสลิปโอน</label>
             <input
               {...register("slip", { required: true })}

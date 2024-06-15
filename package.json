@@ -28,6 +28,7 @@
     "html2canvas-pro": "^1.5.0",
     "next": "^14.0.4",
     "next-sanity": "^9.3.10",
+    "qs": "^6.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.5",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@types/eslint": "^8.44.7",
     "@types/node": "^18.17.0",
+    "@types/qs": "^6.9.15",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
