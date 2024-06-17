@@ -23,7 +23,7 @@
     "@trpc/server": "^10.43.6",
     "@types/uuid": "^9.0.8",
     "clsx": "^2.1.0",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "framer-motion": "^11.0.3",
     "html2canvas-pro": "^1.5.0",
     "next": "^14.0.4",

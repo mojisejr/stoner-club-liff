@@ -32,7 +32,7 @@ const ProfilePage = () => {
       {!isLoading ? (
         <ProfileContentBox
           lineId={profile?.userId!}
-          name={profile?.displayName}
+          name={member != undefined ? member.name : "N/A"}
           tel={member != undefined ? member.tel : "N/A"}
           isSale={member?.isSale ?? false}
           isVip={member?.isVip ?? false}

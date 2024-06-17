@@ -9,7 +9,7 @@ const ResultPage = () => {
 
   const downloadReceipt = () => {
     liff?.openWindow({
-      url: `${process.env.NEXT_PUBLIC_WEB_URL}/order/checkout/download?orderId=${query?.cartId}`,
+      url: `${process.env.NEXT_PUBLIC_WEB_URL}/order/checkout/download?orderId=${query?.cartId}&saleName=${query?.saleName}`,
       external: true,
     });
   };

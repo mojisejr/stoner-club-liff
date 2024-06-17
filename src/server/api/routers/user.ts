@@ -7,9 +7,9 @@ import z from "zod";
 
 export const userRouter = createTRPCRouter({
   create: publicProcedure
-    .input(z.object({ lineId: z.string() }))
+    .input(z.object({ lineId: z.string(), name: z.string() }))
     .mutation(async ({ input }) => {
-      return await createNewUser({ lineId: input.lineId });
+      return await createNewUser({ lineId: input.lineId, name: input.name });
     }),
   getById: publicProcedure
     .input(z.object({ lineId: z.string() }))

@@ -18,6 +18,7 @@ export const createNewUser = async (data: NewUserProfile) => {
       _id: data.lineId,
       title: data.lineId,
       lineId: data.lineId,
+      name: data.name,
       isVip: false,
       isSale: false,
     };

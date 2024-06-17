@@ -90,7 +90,7 @@ export function LineProvider({ children }: { children: ReactNode }) {
 
   async function getProfile() {
     const profile = await liff.getProfile();
-    createNewUser({ lineId: profile.userId });
+    createNewUser({ lineId: profile.userId, name: profile.displayName });
 
     setProfile({
       ...profile,

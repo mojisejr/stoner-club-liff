@@ -1,18 +1,19 @@
 import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
-import { Cart } from "~/interfaces/cart";
+import React, { useRef } from "react";
 import { FaFileDownload } from "react-icons/fa";
 import html2canvas from "html2canvas-pro";
 import { Order } from "~/interfaces/order";
+import dayjs from "dayjs";
 
 interface ReceiptCardDownloadProps {
   order: Order;
+  saleName: string;
   downloadable: boolean;
 }
 
 const ReceiptCardDownload = ({
   order,
+  saleName,
   downloadable,
 }: ReceiptCardDownloadProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -50,6 +51,9 @@ const ReceiptCardDownload = ({
           <div className="text-xl">
             <span className="text-2xl">$</span>
             toner Club
+          </div>
+          <div className="bg-primary p-2 text-white">
+            เซลล์: <span>{saleName}</span>
           </div>
           <div className="w-full bg-blue-200 p-2 text-center">
             ใบเสร็จรับเงิน
@@ -99,7 +103,7 @@ const ReceiptCardDownload = ({
         </div> */}
 
         <div className="w-full pt-2 text-end text-xs">
-          all right reserved 2024
+          วันออกบิล: {dayjs(new Date()).format("L LT")}
         </div>
       </div>
     </div>

@@ -14,8 +14,6 @@ const ReceiptDownload = () => {
     refetch,
   } = api.order.getByid.useQuery({ orderId: query?.orderId as string });
 
-  console.log(order);
-
   useEffect(() => {
     if (query.orderId != undefined) {
       refetch();
@@ -36,7 +34,11 @@ const ReceiptDownload = () => {
   subtotal: number;
   count: number; */}
             {order ? (
-              <ReceiptCardDownload order={order} downloadable={true} />
+              <ReceiptCardDownload
+                order={order}
+                saleName={query?.saleName as string}
+                downloadable={true}
+              />
             ) : (
               <div>ไม่มีข้อมูล</div>
             )}
